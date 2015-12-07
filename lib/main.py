@@ -166,10 +166,7 @@ class Main:
         return rv
 
 if __name__ == '__main__':
-    test = {'a': {'b': 2}}
-    keys = ['a', 'b']
-    a = Main('18319601997')
+    a = Main('test@qq.com')
     data = a.start()
-    print u'18319601997 已注册过:'
     for k in data:
         print k
