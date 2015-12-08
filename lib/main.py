@@ -12,9 +12,9 @@ __author__ = 'DK'
 
 class Main:
 
-    def __init__(self, target):
+    def __init__(self):
         # 要查询的账号
-        self.target = target
+        self.target = ''
         # 线程池对象
         self.__tp = threadpool.threadPoolManage(self.run)
         self.__tp.setMaxThreadSize(10)
@@ -23,14 +23,16 @@ class Main:
         # 返回的结果集
         self.result = {}
 
-    def start(self):
+    def start(self, target):
+        self.result = {}
+        self.target = target
         self.loads()
         if not self.__tp.start():
             exit('Startup failed!')
         while True:
             if self.__tp.getThreadPoolRunState() == 2:
                 break
-            sleep(1)
+            sleep(2)
             if not self.__tp.getTaskSize():
                 self.__tp.stop()
         return self.result
@@ -42,6 +44,12 @@ class Main:
         tempRes = load.load()
         for mod in tempRes:
             self.__tp.addTask(tempRes[mod])
+
+    def count(self):
+        """
+        获取插件数量
+        """
+        return load.count()
 
     def run(self, stateObj, handle):
         """
@@ -89,31 +97,37 @@ class Main:
         :param config: dict
         :param content: str
         """
-        # TODO: 支持正则匹配
         # 字符串结果匹配
+        # TODO: 支持正则匹配和XML匹配, 目前暂时用字符串查找的方式代替
         if config['TYPE'] == 'str':
-            if config['RESULT'] in content:
-                self.result[config['TITLE']] = 'success'
+            if config['RESULT'] in content.strip(''):
+                self.result[config['TITLE']] = config['DESC']
                 return True
         if config['TYPE'] != 'json':
             return False
         # json结果匹配
+        # TODO: 解决返回数据乱码在json解码时的异常问题
         rawData = json.loads(content, object_hook=self.formatResult)
-        key, value = config['RESULT'].split('=')
-        if not key.count('.'):
-            if rawData.get(key) == value:
-                self.result[config['TITLE']] = 'success'
+        if '!=' in config['RESULT']:
+            comp = False
+            key, value = config['RESULT'].split('!=')
         else:
-            if not self.getNodeValue(key, value, rawData):
-                return False
-            self.result[config['TITLE']] = 'success'
+            comp = True
+            key, value = config['RESULT'].split('=')
+        if not key.count('.'):
+            if self.getNodeValue([key], value, rawData, comp):
+                self.result[config['TITLE']] = config['DESC']
+        else:
+            if self.getNodeValue(key.split('.'), value, rawData, comp):
+                self.result[config['TITLE']] = config['DESC']
 
-    def getNodeValue(self, keys, val, data):
+    def getNodeValue(self, keys, val, data, comparison=True):
         """
          多级节点遍历
         :param keys: list
         :param val: str
         :param data: dict
+        :param comparison: boolean
         :return: boolean
         """
         temp = data.get(keys[0])
@@ -122,7 +136,9 @@ class Main:
             temp = temp.get(k)
             if temp is None:
                 return False
-        if temp == val:
+        if comparison and temp.upper() == val.upper():
+            return True
+        if not comparison and temp.upper() != val.upper():
             return True
 
     def formatResult(self, result):
@@ -166,7 +182,8 @@ class Main:
         return rv
 
 if __name__ == '__main__':
-    a = Main('test@qq.com')
-    data = a.start()
+    a = Main()
+    data = a.start('test@example.com')
+    print data
     for k in data:
         print k

@@ -5,6 +5,7 @@ __author__ = 'DK'
 def getConfig():
     return {
         'TITLE': u'京东',  # 插件标题
+        'DESC': 'https://jd.com',  # 网站URL
         'URL': 'https://reg.jd.com/validateuser/isPinEngaged?pin={0}',  # 请求地址
         'SAFE_URL': 'https://reg.jd.com/reg/person?ReturnUrl=http%3A//www.jd.com/',  # 安全请求地址
         'METHOD': 'GET',  # HTTP方法

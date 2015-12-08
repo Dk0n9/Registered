@@ -5,6 +5,7 @@ __author__ = 'DK'
 def getConfig():
     return {
         'TITLE': u'当当网',  # 插件标题
+        'DESC': 'https://dangdang.com',  # 网站URL
         'URL': 'https://login.dangdang.com/p/mobile_checker.php',  # 请求地址
         'METHOD': 'POST',  # HTTP方法
         'HEADERS': {  # 请求头
