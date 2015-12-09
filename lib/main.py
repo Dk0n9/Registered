@@ -2,6 +2,7 @@
 from time import sleep
 import threading
 import json
+import random
 
 import requests
 
@@ -60,8 +61,12 @@ class Main:
         if stateObj.getAction() in [2, 3]:
             return False
         config = handle.getConfig()
-        temp = str(config).replace('{0}', self.target)
-        config = eval(temp)
+        configStr = str(config)
+        configStr = configStr.replace('{0}', self.target)
+        if '{UA}' in configStr:
+            # 随机UserAgent
+            configStr = configStr.replace('{UA}', self.randomUserAgent())
+        config = eval(configStr)
         # 如果需要请求安全地址
         if config.get('SAFE_URL'):
             try:
@@ -140,6 +145,20 @@ class Main:
             return True
         if not comparison and temp.upper() != val.upper():
             return True
+
+    def randomUserAgent(self):
+        """
+        返回随机UserAgent
+        :return: str
+        """
+        ua = [
+            'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
+            'Chrome/46.0.2490.80 Safari/537.36',  # chrome
+            'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0',  # firefox
+            'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0; SLCC2; .NET CLR '
+            '2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E)'  # IE9
+        ]
+        return ua[random.randint(0, len(ua))]
 
     def formatResult(self, result):
         """

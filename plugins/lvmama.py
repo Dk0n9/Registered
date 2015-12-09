@@ -10,6 +10,7 @@ def getConfig():
         'SAFE_URL': 'http://login.lvmama.com/nsso/register/registering.do',  # 安全请求地址
         'METHOD': 'POST',  # HTTP方法
         'HEADERS': {  # 请求头
+            'User-Agent': '{UA}',
             'Referer': 'http://login.lvmama.com/nsso/register/registering.do'
         },
         'COOKIES': {  # 请求Cookie
