@@ -1,5 +1,4 @@
 # coding: utf-8
-from time import sleep
 import threading
 import random
 
@@ -31,7 +30,7 @@ class Main:
         self.target = target
         if not self.loads():
             return self.result
-        if not self.__tp.start():
+        if self.__tp.getThreadPoolRunState() != 0 and not self.__tp.start():
             exit('Startup failed!')
         while True:
             if self.__tp.getThreadPoolRunState() == 2:
@@ -39,7 +38,6 @@ class Main:
             if self.current >= self.maxCount:
                 if self.__tp.stop():
                     break
-        sleep(1)
         return self.result
 
     def loads(self):
@@ -66,12 +64,8 @@ class Main:
         :param stateObj: object, 保存线程池状态的对象
         :param handle: object, 插件对象
         """
-        # 进度
-        self.lock.acquire()
-        self.current += 1
-        self.lock.release()
-
         if stateObj.getAction() in [2, 3]:
+            self.__addProgress()
             return False
 
         config = handle.getConfig()
@@ -106,13 +100,16 @@ class Main:
                 timeout=10
             )
         except Exception, e:
+            self.__addProgress()
             return False
         if urlData.status_code != 200:
+            self.__addProgress()
             return False
         try:
             self.getResult(config, urlData)
         except Exception, e:
-            print e
+            self.__addProgress()
+            return False
 
     def getResult(self, config, data):
         """
@@ -124,11 +121,13 @@ class Main:
         if config['TYPE'] == 'str':
             if parse.strFind(config['RESULT'], data.content):
                 self.result[config['TITLE']] = config['DESC']
+                self.__addProgress()
                 return True
         # 正则匹配
         if config['TYPE'] == 'reg':
             if parse.regParse(config['RESULT'], data.content):
                 self.result[config['TITLE']] = config['DESC']
+                self.__addProgress()
                 return True
         # json结果匹配
         if config['TYPE'] == 'json':
@@ -144,7 +143,8 @@ class Main:
             else:
                 if parse.jsonParse(key.split('.'), value, data, comp):
                     self.result[config['TITLE']] = config['DESC']
-                    return True
+        self.__addProgress()
+        return True
 
     def __randomUserAgent(self):
         """
@@ -160,6 +160,12 @@ class Main:
         ]
         rnd = ua[random.randint(0, len(ua) - 1)]
         return rnd
+
+    def __addProgress(self):
+        # 进度
+        self.lock.acquire()
+        self.current += 1
+        self.lock.release()
 
     def __clear(self):
         self.current = 0
