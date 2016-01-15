@@ -306,12 +306,19 @@ a:focus {
 
 .site-header .fa {
 	position: absolute;
-	right: 25px;
-	top: 15px;
-	color: #eee;
+	right: 18px;
+	top: 13px;
+	color: #fff;
 	font-size: 24px
 }
-
+.site-header .submit{
+	position: absolute;
+	right: 2px;
+	top: 2px;
+	color: #eee;
+	padding: 23px 30px;
+	border-radius: 0px;
+}
 .site-header .form-group {
 	position: relative;
 	margin-top: 40px

@@ -8,9 +8,9 @@
 	<meta name="description" content="Registered">
 	<meta name="keywords" content="Registered">
 	<meta name="author" content="DK">
-	<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" tppabs="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-	<link href="{{ url_for('static', filename='css/font-awesome.css') }}" tppabs="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet">
-	<link href="{{ url_for('static', filename='css/site.min.css') }}" tppabs="http://www.bootcdn.cn/assets/css/site.min.css" rel="stylesheet">
+	<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}"  rel="stylesheet">
+	<link href="{{ url_for('static', filename='css/font-awesome.css') }}" rel="stylesheet">
+	<link href="{{ url_for('static', filename='css/site.min.css') }}" rel="stylesheet">
 	<!--[if lt IE 9]>
 	<script src="{{ url_for('static', filename='js/html5shiv.min.js') }}" tppabs="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 	<script src="{{ url_for('static', filename='js/respond.min.js') }}" tppabs="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
@@ -25,9 +25,9 @@
 	</div>
 	<header class="site-header jumbotron">
 		<div class="site-nav">
-			<a href="//dkdk.pw/" tppabs="http://dkdk.pw/" target="_blank" onclick="_hmt.push(['_trackEvent', 'site-nav', 'click', 'blog'])">博客</a>
+			<a href="//dkdk.pw/" tppabs="http://dkdk.pw/" target="_blank" onclick="_hmt.push(['_trackEvent', 'site-nav', 'click', 'blog'])">习科联创</a>
 			<span>/</span>
-			<a href="#about">关于</a>
+			<a href="https://github.com/Dk0n9/Registered" target="_blank">GitHub</a>
 		</div>
 		<div class="container">
 			<div class="row">
@@ -43,7 +43,8 @@
 					</p>
 					<form class="" role="search" method="GET" action="">
 						<div class="form-group">
-							<input name="keyword" type="text" class="form-control search clearable" placeholder="搜索用户名、手机或邮箱，例如：test@example.com"> <i class="fa fa-search"></i>
+							<input name="keyword" type="text" class="form-control search clearable" placeholder="搜索用户名、手机或邮箱，例如：test@example.com">
+							<button type="submit" class="btn submit"><i class="fa fa-search"></i></button>
 						</div>
 					</form>
 				</div>

@@ -1,7 +1,6 @@
 # coding: utf-8
 from time import sleep
 import threading
-import json
 import random
 
 import requests
@@ -23,20 +22,24 @@ class Main:
         # 线程锁
         self.lock = threading.Lock()
         # 返回的结果集
+        self.current = 0
+        self.maxCount = 1
         self.result = {}
 
     def start(self, target):
-        self.result = {}
+        self.__clear()  # 初始化
         self.target = target
-        self.loads()
+        if not self.loads():
+            return self.result
         if not self.__tp.start():
             exit('Startup failed!')
         while True:
             if self.__tp.getThreadPoolRunState() == 2:
                 break
-            sleep(1)
-            if not self.__tp.getTaskSize():
-                self.__tp.stop()
+            if self.current >= self.maxCount:
+                if self.__tp.stop():
+                    break
+        sleep(1)
         return self.result
 
     def loads(self):
@@ -44,8 +47,12 @@ class Main:
         将插件对象插入到线程池工作队列
         """
         tempRes = load.load()
+        self.maxCount = len(tempRes)  # 赋值最大任务数
+        if self.maxCount == 0:
+            return False
         for mod in tempRes:
             self.__tp.addTask(tempRes[mod])
+        return True
 
     def count(self):
         """
@@ -59,6 +66,11 @@ class Main:
         :param stateObj: object, 保存线程池状态的对象
         :param handle: object, 插件对象
         """
+        # 进度
+        self.lock.acquire()
+        self.current += 1
+        self.lock.release()
+
         if stateObj.getAction() in [2, 3]:
             return False
 
@@ -67,7 +79,7 @@ class Main:
         configStr = configStr.replace('{0}', self.target)
         if '{UA}' in configStr:
             # 随机UserAgent
-            configStr = configStr.replace('{UA}', self.randomUserAgent())
+            configStr = configStr.replace('{UA}', self.__randomUserAgent())
         config = eval(configStr)
 
         # 如果需要请求安全地址
@@ -97,7 +109,10 @@ class Main:
             return False
         if urlData.status_code != 200:
             return False
-        self.getResult(config, urlData)
+        try:
+            self.getResult(config, urlData)
+        except Exception, e:
+            print e
 
     def getResult(self, config, data):
         """
@@ -131,7 +146,7 @@ class Main:
                     self.result[config['TITLE']] = config['DESC']
                     return True
 
-    def randomUserAgent(self):
+    def __randomUserAgent(self):
         """
         返回随机UserAgent
         :return: str
@@ -143,7 +158,13 @@ class Main:
             'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0; SLCC2; .NET CLR '
             '2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E)'  # IE9
         ]
-        return ua[random.randint(0, len(ua))]
+        rnd = ua[random.randint(0, len(ua) - 1)]
+        return rnd
+
+    def __clear(self):
+        self.current = 0
+        self.maxCount = 1
+        self.result = {}
 
 
 if __name__ == '__main__':
