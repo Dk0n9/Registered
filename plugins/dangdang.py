@@ -5,6 +5,9 @@ from Registered.common import base
 
 class Plugin(base.BASE):
 
+    __title__ = '当当网'
+    __domain__ = 'http://www.dangdang.com/'
+
     def register(self, target):
         self.url = 'https://login.dangdang.com/p/mobile_checker.php'
         self.method = 'post'
