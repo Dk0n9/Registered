@@ -3,10 +3,14 @@
 import os
 import time
 
-from tornado.web import RequestHandler
 from bson import ObjectId
+from tornado.web import RequestHandler
 
 from Registered import database
+from Registered.common import functions
+
+
+PLUGINS = functions.loadPlugins()
 
 
 class BaseHandler(RequestHandler):
