@@ -2,6 +2,9 @@
 
 import os
 import imp
+import json
+
+from Registered.config import conf
 
 
 def loadPlugins():
@@ -11,21 +14,29 @@ def loadPlugins():
     """
     # TODO: 定时监控目录插件变化并重载;
     result = {}
-    path = os.path.abspath(os.path.dirname(__file__) + '/../plugins/').replace('\\', '/')
-    for name in os.listdir(path):
+    for name in os.listdir(conf.PLUGIN_DIR):
         if not name.endswith('.py') or name == '__init__.py':
             continue
         name = name.replace('.py', '')
-        fp = imp.find_module(name, [path])
+        fp = imp.find_module(name, [conf.PLUGIN_DIR])
         tempObj = imp.load_module(name, *fp)
         if hasattr(tempObj, 'Plugin'):
-            result[name] = getattr(tempObj, 'Plugin')
+            classObj = getattr(tempObj, 'Plugin')()  # 初始化
+            result[classObj.__name__] = classObj
     return result
 
 
-def getPluginCount():
-    files = os.listdir(os.path.abspath(os.path.dirname(__file__) + '/../plugins/').replace('\\', '/'))
-    result = []
-    map(lambda x: result.append(x) if x.endswith('.py') and not x.startswith('__init__') else False, files)
-    return len(result)
+def objectToJson(obj):
+    try:
+        data = json.dumps(obj)
+        return data
+    except Exception, e:
+        return False
 
+
+def jsonToObject(string):
+    try:
+        data = json.loads(string)
+        return data
+    except Exception, e:
+        return False

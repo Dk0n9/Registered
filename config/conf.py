@@ -1,4 +1,5 @@
 # coding: utf-8
+
 import os
 
 
@@ -22,3 +23,7 @@ DATABASE_PORT = '27017'
 DATABASE_USER = ''
 DATABASE_PASS = ''
 DATABASE_DB = 'registered'
+
+# PLUGIN CONFIG #
+THREADS = 5
+PLUGIN_DIR = os.path.abspath(os.path.dirname(__file__) + '/../plugins/').replace('\\', '/')
