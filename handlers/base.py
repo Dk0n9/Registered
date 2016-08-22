@@ -60,16 +60,18 @@ class SocketHandler(WebSocketHandler):
     db = None
     status = True
     taskQueue = Queue()
+    _lock = threading.Lock()
 
     def __init__(self, application, request, **kwargs):
-        if BaseHandler._first_running:
+        if SocketHandler._first_running:
             self._after_prefork()
-            BaseHandler._first_running = False
+            SocketHandler._first_running = False
+        WebSocketHandler._on_close_called = True
 
         super(WebSocketHandler, self).__init__(application, request, **kwargs)
 
     def _after_prefork(self):
-        BaseHandler.db = database.connect()
+        SocketHandler.db = database.connect()
 
     def on_close(self):
         SocketHandler.status = False
@@ -85,7 +87,16 @@ class SocketHandler(WebSocketHandler):
         while True:
             if not SocketHandler.status:
                 break
+
+            # 队列为空时向客户端发送任务完成消息
             if SocketHandler.taskQueue.empty():
+                SocketHandler._lock.acquire()
+                if not SocketHandler.status:
+                    SocketHandler._lock.release()
+                    break
+                SocketHandler.status = False
+                SocketHandler._lock.release()
+                self.write_message('done')
                 break
             data = SocketHandler.taskQueue.get(False)
             data.register(target)
@@ -95,10 +106,20 @@ class SocketHandler(WebSocketHandler):
                     'title': data.__title__,
                     'url': data.__url__
                 })
-                self._updateTarget(data.__name__)
+                self._updateTarget(target, data.__name__)
 
-    def _updateTarget(self, obj):
-        pass
+    def _updateTarget(self, target, name):
+        updateRes = self.db.targets.update({
+            'target': target
+        }, {
+            '$addToSet': {
+                'plugins': name
+            }
+        })
+        if updateRes['nModified']:
+            return True
+        else:
+            return False
 
     @property
     def getPlugins(self):
