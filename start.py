@@ -4,7 +4,7 @@ import tornado.web
 import tornado.httpserver
 import tornado.ioloop
 
-from MagicX.config import conf
+from Registered.config import conf
 import route
 
 
