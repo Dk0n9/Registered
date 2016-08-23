@@ -34,9 +34,9 @@ class BASE(object):
             safeRes = self.__request(self.safeMethod, self.safeURL, self.safeSettings)
             if not safeRes:
                 return False
-            if not self.settings.get('headers'):
+            if self.settings.get('headers') is None:
                 self.settings['headers'] = safeRes.headers
-            if not self.settings.get('cookies'):
+            if self.settings.get('cookies') is None:
                 self.settings['cookies'] = safeRes.cookies
         requestRes = self.__request(self.method, self.url, self.settings)
         if not requestRes:
