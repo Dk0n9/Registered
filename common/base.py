@@ -9,6 +9,7 @@ import string
 
 import requests
 
+from Registered.config import conf
 from Registered.common import analyze
 
 
@@ -45,13 +46,16 @@ class BASE(object):
         return self._analyzer.get()
 
     def __request(self, method, url, settings=None):
-        try:
-            response = requests.request(method, url, **settings)
-            return response
-        except requests.Timeout:
-            return self.__request(method, url, **settings)
-        except Exception, e:
-            return False
+        # 超时重试机制
+        for i in range(3):
+            try:
+                response = requests.request(method, url, timeout=conf.TIMEOUT,**settings)
+                return response
+            except requests.Timeout:
+                continue
+            except Exception, e:
+                return False
+        return False
 
     def getRandomAgent(self):
         """
