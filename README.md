@@ -5,11 +5,14 @@
 
 > 本程序使用Python + Tornado完成,
   用于查找手机号/邮箱/用户名所注册过的网站。
+  分享是精神的升华, 自己编写的插件可以给本项目pull requests!
 
 ---
 #### 更新日志
 ##### version 0.2
-* 使用Python + Flask重写
+* 使用Python + Tornado重写
+* 重新定义了插件的规范
+* 重写前端页面, 并使用可靠性更高的websocket来传递信息
 
 ##### version 0.1
 * 使用Python + Flask完成了第一版
