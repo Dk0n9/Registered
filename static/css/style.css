@@ -1,0 +1,158 @@
+/* Import fonts */
+@import url(http://fonts.useso.com/css?family=Roboto:400,100,300,500,700,900);
+@import url(http://fonts.useso.com/css?family=Open+Sans:400,300,600,700,800);
+@import url(http://fonts.useso.com/css?family=Roboto+Slab:400,700,300,100);
+
+html, body {
+    height:100%;
+    margin:0 auto;
+    padding:0;
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    margin:0;
+    padding:0;
+}
+
+.title {
+    font-weight: bold;
+    font-size: 3.45em;
+}
+
+a {
+    color: #333;
+    text-align: center;
+    display: inline-block;
+    margin: 10px 3px 10px 3px;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #1bbc9b;
+    text-decoration: none;
+    //background: #1bbc9b;
+}
+
+a .fa {
+    line-height: 50px;
+}
+
+.subscriptionForm input {
+    height: 40px;
+    border: 1px solid #edeff0;
+    outline: none;
+    padding: 0 15px;
+    font-size: 1.1em;
+}
+
+.subscriptionForm input#email-subscribe { width: 300px; color: #b3b3b3; -webkit-transition: 0.5s; transition: 0.5s; }
+.subscriptionForm input#email-subscribe:focus { border-color: #b3b3b3; }
+.subscriptionForm input#subscribebtn { color: #fff; background: #1bbc9b; cursor: pointer; -webkit-transition: 0.5s; transition: 0.5s; }
+.subscriptionForm input#subscribebtn:hover { background: #11ab8c; }
+
+#container {
+    background: #fff;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0;
+}
+
+#container .brand {
+    background:#1bbc9b;
+    width:100%;
+    height:auto;
+    margin:0 auto;
+}
+
+#container .brand .title {
+    color: #fff;
+    display: inline-block;
+    position: relative;
+    padding-top: 1em;
+    left: 50%;
+    padding-bottom: 0.6em;
+    text-shadow: #333 8px 8px 25px;
+}
+
+.search {
+    position: relative;
+    width: auto;
+    padding-bottom: 30px;
+    left:50%;
+    margin-left: -170px;
+    z-index:1000;
+}
+
+.row {
+    position: relative;
+    width: auto;
+    height: auto;
+    padding-left: 15%;
+    padding-right: 15%;
+}
+
+.result {
+    float: left;
+    width: 20%;
+    height: 10%;
+    padding: 15px 10px 10px 10px;
+    text-align: center;
+}
+
+.loadding {
+    margin:-100px 0px 0px -100;
+    height: 60px;
+    text-align: center;
+    font-size: 10px;
+    display: none;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+}
+
+.loadding > div {
+    background-color: #1bbc9b;
+    height: 100%;
+    width: 6px;
+    display: inline-block;
+    -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
+    animation: stretchdelay 1.2s infinite ease-in-out;
+}
+
+.loadding .rect2 {
+    -webkit-animation-delay: -1.1s;
+    animation-delay: -1.1s;
+}
+
+.loadding .rect3 {
+    -webkit-animation-delay: -1.0s;
+    animation-delay: -1.0s;
+}
+
+.loadding .rect4 {
+    -webkit-animation-delay: -0.9s;
+    animation-delay: -0.9s;
+}
+
+.loadding .rect5 {
+    -webkit-animation-delay: -0.8s;
+    animation-delay: -0.8s;
+}
+
+@-webkit-keyframes stretchdelay {
+    0%, 40%, 100% { -webkit-transform: scaleY(0.4) }
+    20% { -webkit-transform: scaleY(1.0) }
+}
+
+@keyframes stretchdelay {
+    0%, 40%, 100% {
+        transform: scaleY(0.4);
+        -webkit-transform: scaleY(0.4);
+    }  20% {
+        transform: scaleY(1.0);
+        -webkit-transform: scaleY(1.0);
+    }
+}
