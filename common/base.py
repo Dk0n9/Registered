@@ -34,8 +34,10 @@ class BASE(object):
             safeRes = self.__request(self.safeMethod, self.safeURL, self.safeSettings)
             if not safeRes:
                 return False
-            self.settings['headers'] = safeRes.headers
-            self.settings['cookies'] = safeRes.cookies
+            if not self.settings.get('headers'):
+                self.settings['headers'] = safeRes.headers
+            if not self.settings.get('cookies'):
+                self.settings['cookies'] = safeRes.cookies
         requestRes = self.__request(self.method, self.url, self.settings)
         if not requestRes:
             return False
@@ -51,7 +53,6 @@ class BASE(object):
         except Exception, e:
             return False
 
-    @property
     def getRandomAgent(self):
         """
         获取随机User-Agent
@@ -65,7 +66,6 @@ class BASE(object):
         ]
         return random.choice(userAgents)
 
-    @property
     def getNowTime(self):
         """
         获得当前时间的时间戳(十位)
