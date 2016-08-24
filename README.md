@@ -26,7 +26,7 @@
 编写插件需要一定的Python基础。
 插件脚本首先需要导入包
 
-<pre><code>from Registered.common import base</code></pre>
+<pre><code>from common import base</code></pre>
 编写一个Plugin类, 继承自base.BASE
 <pre><code>class Plugin(base.BASE):</code></pre>
 需要定义类的基本属性:
