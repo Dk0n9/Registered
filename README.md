@@ -29,6 +29,7 @@
 - 如果已经使用pip安装了bson, 程序会抛出没有找到ObjectId模块的错误。
 
 > 这是因为pymongo内的bson模块与pip安装的bson起了冲突所导致的。
+
 > 需要先把bson和pymongo(装了的话)模块卸载, 然后再使用pip安装回pymongo模块即可解决错误。
 
 ---
