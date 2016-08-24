@@ -5,21 +5,21 @@ from Registered.common import base
 
 class Plugin(base.BASE):
 
-    __name__ = 'csdn_mobile'  # 只能使用字母、数字、英文下划线命名, 字母开头
+    __name__ = 'csdn_email'  # 只能使用字母、数字、英文下划线命名, 字母开头
     __title__ = 'CSDN'
     __url__ = 'http://www.csdn.net/'
 
     def register(self, target):
-        self.url = 'http://passport.csdn.net/account/mobileregister'
+        self.url = 'http://passport.csdn.net/account/register'
         self.method = 'get'
         self.settings = {
             'params': {
-                'action': 'validateMobile',
-                'mobile': target
+                'action': 'validateEmail',
+                'email': target
             }
         }
-        self.resultType = 'json'
-        self.resultValue = 'err=0'
+        self.resultType = 'str'
+        self.resultValue = 'false'
 
 
 if __name__ == '__main__':

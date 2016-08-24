@@ -25,7 +25,7 @@ class Plugin(base.BASE):
             }
         }
         self.resultType = 'json'
-        self.resultValue = 'code=100000'
+        self.resultValue = 'code=600001'
 
 
 if __name__ == '__main__':
