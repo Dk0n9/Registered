@@ -25,7 +25,7 @@
 #### 插件编写规范
 编写插件需要一定的Python基础。
 插件脚本首先需要导入包
-from Registered.common import base
+<pre><code>from Registered.common import base</code></pre>
 编写一个Plugin类, 继承自base.BASE
 <pre><code>class Plugin(base.BASE):</code></pre>
 需要定义类的基本属性:
@@ -50,3 +50,16 @@ __url__ = 'http://www.xxx.com/'  # 网站地址</code></pre>
     # 如果结果格式是字符串对比或正则匹配模式, resultValue应该填写需要进行对比的字符。
     # json和xml解析模式时, resultValue填写表达式, 样例: result=yes 或 result!=no (只支持 = 和 !=)
     # 如果需要查找的内容在不同层级, 则可以用.表示下一级, 样例: result.success=true 或 result.mobile.success!=false</code></pre>
+在基类中, 还有一些可供使用的公共方法:
+
+- getRandomAgent
+> 随机获取一个User-Agent, 想添加或移除User-Agent可以在基类的代码中修改
+
+- getNowTime
+> 获取当前时间的时间戳(十位长度)
+
+- getRandomStr
+> 获取指定长度的随机字符串, 默认只返回随机字母组合
+> 必输参数: length; 指定字符串的长度
+> 可选参数: intger; 如果为True, 只返回随机数字组合
+> 可选参数: mix; 如果为True, 返回随机数字+字母组合
