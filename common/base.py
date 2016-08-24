@@ -9,8 +9,8 @@ import string
 
 import requests
 
-from Registered.config import conf
-from Registered.common import analyze
+from config import conf
+from common import analyze
 
 
 class BASE(object):

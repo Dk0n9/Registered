@@ -4,7 +4,7 @@ import os
 import imp
 import json
 
-from Registered.config import conf
+from config import conf
 
 
 def loadPlugins():

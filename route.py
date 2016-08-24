@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from Registered.handlers import index
+from handlers import index
 
 
 route = []

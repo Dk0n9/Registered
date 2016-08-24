@@ -1,7 +1,7 @@
 # coding: utf-8
 
-from Registered.handlers import base
-from Registered.common import functions
+from handlers import base
+from common import functions
 
 
 class IndexHandler(base.BaseHandler):

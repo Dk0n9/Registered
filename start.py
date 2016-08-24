@@ -4,7 +4,7 @@ import tornado.web
 import tornado.httpserver
 import tornado.ioloop
 
-from Registered.config import conf
+from config import conf
 import route
 
 

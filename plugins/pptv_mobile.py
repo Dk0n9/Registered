@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from Registered.common import base
+from common import base
 
 
 class Plugin(base.BASE):

@@ -2,8 +2,8 @@
 
 import pymongo
 
-from Registered.common.exceptions import (DBConnectionError,
-                                           DBAuthenticatedError)
+from common.exceptions import (DBConnectionError,
+                               DBAuthenticatedError)
 
 
 class DB(object):

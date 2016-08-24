@@ -8,9 +8,9 @@ from bson import ObjectId
 from tornado.web import RequestHandler
 from tornado.websocket import WebSocketHandler
 
-from Registered import database
-from Registered.config import conf
-from Registered.common import functions
+import database
+from config import conf
+from common import functions
 
 
 PLUGINS = functions.loadPlugins()

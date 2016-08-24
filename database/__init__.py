@@ -2,11 +2,11 @@
 
 import importlib
 
-from Registered.config import conf
+from config import conf
 
 
 def connect():
-    driverModule = importlib.import_module('.' + conf.DATABASE_DRIVER, package='Registered.database')
+    driverModule = importlib.import_module('.' + conf.DATABASE_DRIVER, package='database')
     dbConfig = {
         'host': conf.DATABASE_HOST,
         'port': conf.DATABASE_PORT,
