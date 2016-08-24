@@ -1,11 +1,10 @@
 ---
-# Registered V0.2
+# Registered V0.2.1
 
-[![Python 2.7](https://img.shields.io/badge/python-2.7-blue.svg)](https://www.python.org/) [![License](https://img.shields.io/badge/license-GPLv3-red.svg)](https://raw.githubusercontent.com/Dk0n9/Registered/dev/LICENSE)
+[![Python 2.7](https://img.shields.io/badge/python-2.7-blue.svg)](https://www.python.org/) [![License](https://img.shields.io/badge/license-GPLv3-red.svg)](https://raw.githubusercontent.com/Dk0n9/Registered/master/LICENSE)
 
 > 本程序使用Python + Tornado完成,
   用于查找手机号/邮箱/用户名所注册过的网站。
-  分享是精神的升华, 自己编写的插件可以给本项目pull requests!
 
 ---
 #### 更新日志
@@ -19,13 +18,22 @@
 
 ---
 #### 使用方法
-在./config/conf.py文件中配置web地址、数据库配置、插件配置后, 运行./start.py文件。
+在程序目录下运行:
+<pre><code>pip install -r requirements.txt</code></pre>
+安装程序所需的依赖包
+
+在./config/conf.py文件中配置web地址、数据库配置、插件配置后, 运行./start.py文件启动WEB服务。
+
+---
+#### 注意事项
+- 如果已经使用pip安装了bson, 程序会抛出没有找到ObjectId模块的错误。
+> 这是因为pymongo内的bson模块与pip安装的bson起了冲突所导致的。
+> 需要先把bson和pymongo(装了的话)模块卸载, 然后再使用pip安装回pymongo模块即可解决错误。
 
 ---
 #### 插件编写规范
 编写插件需要一定的Python基础。
 插件脚本首先需要导入包
-
 <pre><code>from common import base</code></pre>
 编写一个Plugin类, 继承自base.BASE
 <pre><code>class Plugin(base.BASE):</code></pre>
