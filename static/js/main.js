@@ -7,6 +7,10 @@ $(document).ready(function(){
             $('.loadding').hide();
         }else {
             jsonObj = JSON.parse(e.data);
+            href = $('.result a[href="'+jsonObj.url+'"]');
+            if(href.length){
+                return;
+            }
             $('<div class="result"><a href="'+jsonObj.url+'" target="_blank"><h1>'+jsonObj.title+'</h1></a></div>').appendTo('.row');
         }
     }
