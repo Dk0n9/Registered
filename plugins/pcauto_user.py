@@ -11,7 +11,7 @@ class Plugin(base.BASE):
 
     def register(self, target):
         self.url = 'http://passport3.pcauto.com.cn/passport3/api/validate_account.jsp?req_enc=UTF-8'
-        self.method = 'get'
+        self.method = 'post'
         self.settings = {
             'data': {
                 'username': target,
