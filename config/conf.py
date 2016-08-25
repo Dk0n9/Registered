@@ -13,7 +13,8 @@ SETTINGS = {
     'static_path': os.path.join(os.path.dirname(__file__), '../static'),
     'cookie_secret': '!@#$%^&*()_+',
     'xsrf_cookies': True,
-    'debug': True
+    'debug': False,
+    'access_log': True
 }
 
 # DATABASE CONFIG #
