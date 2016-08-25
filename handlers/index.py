@@ -18,6 +18,7 @@ class InfoHandler(base.SocketHandler):
             return None
         if not data.get('target') or not isinstance(data['target'], basestring):
             return None
+        base.SocketHandler.status = True  # 重置查询状态
         findRes = self.db.targets.find_one({'target': data['target']})
         if not findRes:
             result = self._insertTarget(data['target'])
