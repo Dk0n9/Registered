@@ -8,6 +8,9 @@
 
 ---
 #### 更新日志
+##### version 0.2.1
+* 修复若干bug
+
 ##### version 0.2
 * 使用Python + Tornado重写
 * 重新定义了插件的规范
