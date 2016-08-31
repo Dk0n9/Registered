@@ -26,6 +26,12 @@ $(document).ready(function(){
 	}
 	halfObject();
 
+    $('#email-subscribe').keydown(function(e){
+        if(e.keyCode==13){
+            $('#subscribebtn').click();
+        }
+    });
+
     $('body').on('click', '#subscribebtn', function(){
         value = $(this).parent().find('input[name="email"]').val();
         $('.row').html('');

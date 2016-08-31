@@ -1,5 +1,5 @@
 ---
-# Registered V0.2.1
+# Registered V0.2.2
 
 [![Python 2.7](https://img.shields.io/badge/python-2.7-blue.svg)](https://www.python.org/) [![License](https://img.shields.io/badge/license-GPLv3-red.svg)](https://raw.githubusercontent.com/Dk0n9/Registered/master/LICENSE)
 
@@ -8,6 +8,9 @@
 
 ---
 #### 更新日志
+##### version 0.2.2
+* 优化查询逻辑
+
 ##### version 0.2.1
 * 修复若干bug
 

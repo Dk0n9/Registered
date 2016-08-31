@@ -17,13 +17,13 @@ class InfoHandler(base.SocketHandler):
         if not data:
             return None
         if not data.get('target') or not isinstance(data['target'], basestring):
-            return None
+            return self.write_message('done')
         base.SocketHandler.status = True  # 重置查询状态
         findRes = self.db.targets.find_one({'target': data['target']})
         if not findRes:
             result = self._insertTarget(data['target'])
             if not result:
-                return None
+                return self.write_message('done')
             findRes = {'plugins': []}
         # 如果数据库中存在某些插件的记录就先输出, 再校验不存在记录的插件
         for pluginName in findRes['plugins']:
