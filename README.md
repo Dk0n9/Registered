@@ -1,5 +1,5 @@
 ---
-# Registered V0.2.2
+# Registered V0.2.3
 
 [![Python 2.7](https://img.shields.io/badge/python-2.7-blue.svg)](https://www.python.org/) [![License](https://img.shields.io/badge/license-GPLv3-red.svg)](https://raw.githubusercontent.com/Dk0n9/Registered/master/LICENSE)
 
@@ -8,6 +8,9 @@
 
 ---
 #### 更新日志
+##### version 0.2.3
+* 添加用于测试插件是否可用的测试脚本，使用方法参考当前目录下的**pluginTest.py**文件
+
 ##### version 0.2.2
 * 优化查询逻辑
 
