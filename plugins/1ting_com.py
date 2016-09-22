@@ -10,18 +10,18 @@ class Plugin(base.BASE):
     __url__ = 'http://www.1ting.com/'
 
     def register(self, target):
-        self.url = 'http://my.1ting.com/register/check'
-        self.method = 'get'
-        self.settings = {
-            'params': {
-                'user_login': target,
+        self.information = {
+            'username': {
+                'url': 'http://my.1ting.com/register/check',
+                'method': 'get',
+                'settings': {
+                    'params': {
+                        'user_login': target,
+                    }
+                },
+                'result': {
+                    'type': 'str',
+                    'value': 'false'
+                }
             }
         }
-        self.resultType = 'str'
-        self.resultValue = 'false'
-
-
-if __name__ == '__main__':
-    test = Plugin()
-    test.register('xxx')
-    print test.verify()

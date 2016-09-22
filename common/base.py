@@ -7,54 +7,41 @@ import time
 import random
 import string
 
-import requests
-
-from config import conf
 from common import analyze
+from common import functions
 
 
 class BASE(object):
 
-    url = None
-    method = None
-    settings = {
-        'params': None,
-        'data': None,
-        'headers': None,
-        'cookies': None
+    information = {
+        'phone': {},
+        'email': {},
+        'username': {}
     }
-    safeMethod = None
-    safeURL = None
-    safeSettings = settings
-    resultType = None
-    resultValue = None
     _analyzer = analyze.Analyzer()
 
     def verify(self):
-        if self.safeURL:
-            safeRes = self.__request(self.safeMethod, self.safeURL, self.safeSettings)
-            if not safeRes:
-                return False
-            if self.settings.get('headers') is None:
-                self.settings['headers'] = safeRes.headers
-            if self.settings.get('cookies') is None:
-                self.settings['cookies'] = safeRes.cookies
-        requestRes = self.__request(self.method, self.url, self.settings)
-        if not requestRes:
-            return False
-        self._analyzer.set(self.resultType, self.resultValue, requestRes.content)
-        return self._analyzer.get()
-
-    def __request(self, method, url, settings=None):
-        # 超时重试机制
-        for i in range(3):
-            try:
-                response = requests.request(method, url, timeout=conf.TIMEOUT,**settings)
-                return response
-            except requests.Timeout:
+        for key in self.information.keys():
+            if not self.information[key]:
                 continue
-            except Exception, e:
+            tempDict = self.information[key]
+            tempSafeDict = tempDict.get('safe')
+            if tempSafeDict:
+                safeResponse = functions.request(**tempSafeDict)
+                if not safeResponse:
+                    return False
+                tempDict.setdefault('settings', {})
+                if 'headers' not in tempDict['settings']:
+                    tempDict['settings']['headers'] = safeResponse.headers
+                if 'cookies' not in self.information[key]['settings']:
+                    tempDict['settings']['cookies'] = safeResponse.cookies
+            response = functions.request(tempDict['method'], tempDict['url'], tempDict['settings'])
+            if not response:
                 return False
+            self._analyzer.set(response.content, tempDict['result'])
+            result = self._analyzer.get()
+            if result:
+                return True
         return False
 
     def getRandomAgent(self):

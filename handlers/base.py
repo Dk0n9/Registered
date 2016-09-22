@@ -3,6 +3,7 @@
 import time
 import threading
 from Queue import Queue
+from Queue import Empty
 
 from bson import ObjectId
 from tornado.web import RequestHandler
@@ -88,8 +89,12 @@ class SocketHandler(WebSocketHandler):
             if not SocketHandler.status:
                 break
 
-            # 队列为空时向客户端发送任务完成消息
-            if SocketHandler.taskQueue.empty():
+            try:
+                data = SocketHandler.taskQueue.get(False)
+                data.register(target)
+                result = data.verify()
+            except Empty:
+                # 队列为空时向客户端发送任务完成消息
                 SocketHandler._lock.acquire()
                 if not SocketHandler.status:
                     SocketHandler._lock.release()
@@ -98,9 +103,9 @@ class SocketHandler(WebSocketHandler):
                 SocketHandler._lock.release()
                 self.write_message('done')
                 break
-            data = SocketHandler.taskQueue.get(False)
-            data.register(target)
-            result = data.verify()
+            except Exception, e:
+                print e
+                break
             if result:
                 self.write_message({
                     'title': data.__title__,

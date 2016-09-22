@@ -17,9 +17,9 @@ class Analyzer(object):
         self.__value = None
         self.__content = None
 
-    def set(self, rtype, value, content):
-        self.__type = rtype.lower()
-        self.__value = value
+    def set(self, content, rDict):
+        self.__type = rDict['type'].lower()
+        self.__value = rDict['value']
         self.__content = content
 
     def get(self):
@@ -138,5 +138,5 @@ class Analyzer(object):
 
 if __name__ == '__main__':
     test = Analyzer()
-    test.set('json', 'result=true', '{"result":true}')
+    test.set('{"result":true}', {'type': 'json', 'value': 'result=true'})
     print test.get()
