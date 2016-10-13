@@ -1,30 +1,29 @@
-# coding: utf-8
+# coding: utf8
 
 from common import base
 
 
 class Plugin(base.BASE):
 
-    __name__ = 'jingdong'  # 只能使用字母、数字、英文下划线命名, 字母开头
-    __title__ = '京东商城'
-    __url__ = 'http://www.jd.com/'
+    _Name_ = 'github'  # 只能使用字母、数字、英文下划线命名, 字母开头
+    _Title_ = 'GitHub'
+    _Url_ = 'https://github.com/'
 
     def register(self, target):
         self.information = {
             'username': {
-                'url': 'https://reg.jd.com/validateuser/isPinEngaged',
+                'url': 'https://github.com/signupCheck/username',
                 'method': 'post',
                 'settings': {
                     'data': {
-                        'regName': target,
-                        'pin': target
+                        'value': target
                     },
                     'headers': {
-                        'X-Requested-With': 'XMLHttpRequest',
-                    }
+                        'X_Requested_With': 'XMLHttpRequest',
+                    },
                 },
                 'safe': {
-                    'url': 'https://reg.jd.com/reg/person',
+                    'url': 'https://github.com/join?source=login',
                     'method': 'get'
                 },
                 'result': {

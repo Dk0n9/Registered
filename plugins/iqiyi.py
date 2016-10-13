@@ -11,22 +11,22 @@ class Plugin(base.BASE):
     __url__ = 'http://www.iqiyi.com/'
 
     def register(self, target):
-        self.url = 'http://passport.iqiyi.com/apis/user/check_account.action'
-        self.method = 'get'
-        self.settings = {
-            'params': {
-                'account': target,
-            },
-            'headers': {
-                'user-agent': self.getRandomAgent(),
-                'referer': 'http://vip.iqiyi.com/'
+        self.information = {
+            'username': {
+                'url': 'http://passport.iqiyi.com/apis/user/check_account.action',
+                'method': 'get',
+                'settings': {
+                    'params': {
+                        'account': target,
+                    },
+                    'headers': {
+                        'user-agent': self.getRandomAgent(),
+                        'referer': 'http://vip.iqiyi.com/'
+                    }
+                },
+                'result': {
+                    'type': 'json',
+                    'value': 'data=true'
+                }
             }
         }
-        self.resultType = 'json'
-        self.resultValue = 'data=true'
-
-
-if __name__ == '__main__':
-    test = Plugin()
-    test.register('xxx')
-    print test.verify()

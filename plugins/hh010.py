@@ -13,24 +13,24 @@ class Plugin(base.BASE):
         domain = target.split('@')
         if len(domain) == 1 or len(domain) > 2:
             return False
-        self.url = 'http://bbs.hh010.com/forum.php'
-        self.method = 'get'
-        self.settings = {
-            'params': {
-                'mod': 'ajax',
-                'inajax': 'yes',
-                'infloat': 'register',
-                'handlekey': 'register',
-                'ajaxmenu': '1',
-                'action': 'checkusername',
-                'username': target
+        self.information = {
+            'username': {
+                'url': 'http://bbs.hh010.com/forum.php',
+                'method': 'get',
+                'settings': {
+                    'params': {
+                        'mod': 'ajax',
+                        'inajax': 'yes',
+                        'infloat': 'register',
+                        'handlekey': 'register',
+                        'ajaxmenu': '1',
+                        'action': 'checkusername',
+                        'username': target
+                    }
+                },
+                'result': {
+                    'type': 'str',
+                    'value': '\xb8\xc3\xd3\xc3\xbb\xa7\xc3'
+                }
             }
         }
-        self.resultType = 'str'
-        self.resultValue = '\xb8\xc3\xd3\xc3\xbb\xa7\xc3'
-
-
-if __name__ == '__main__':
-    test = Plugin()
-    test.register('xxx')
-    print test.verify()

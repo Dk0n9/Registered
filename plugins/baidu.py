@@ -5,23 +5,25 @@ from common import base
 
 class Plugin(base.BASE):
 
-    __name__ = 'jj_user'  # 只能使用字母、数字、英文下划线命名, 字母开头
-    __title__ = '竞技世界'
-    __url__ = 'http://www.jj.cn/'
+    __name__ = 'baidu'
+    __title__ = '百度'
+    __url__ = 'https://www.baidu.com/'
 
     def register(self, target):
         self.information = {
             'username': {
-                'url': 'http://a4.act.jj.cn/my/check_general_loginname.php',
+                'url': 'https://passport.baidu.com/v2/?regnamesugg',
                 'method': 'get',
                 'settings': {
                     'params': {
-                        'loginname': target
+                        'tpl': 'mn',
+                        'apiver': 'v3',
+                        'username': target
                     }
                 },
                 'result': {
-                    'type': 'str',
-                    'value': '{"msg":1}'
+                    'type': 'json',
+                    'value': 'data.userExsit=1'
                 }
             }
         }

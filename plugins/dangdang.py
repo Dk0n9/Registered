@@ -10,18 +10,21 @@ class Plugin(base.BASE):
     __url__ = 'http://www.dangdang.com/'
 
     def register(self, target):
-        self.url = 'https://login.dangdang.com/p/mobile_checker.php'
-        self.method = 'post'
-        self.settings = {
-            'data': {
-                'mobile': target
+        self.information = {
+            'email': {
+                'url': 'https://login.dangdang.com/p/mobile_checker.php',
+                'method': 'post',
+                'settings': {
+                    'data': {
+                        'mobile': target
+                    }
+                },
+                'result': {
+                    'type': 'str',
+                    'value': 'true'
+                }
             }
         }
-        self.resultType = 'str'
-        self.resultValue = 'true'
 
 
-if __name__ == '__main__':
-    test = Plugin()
-    test.register('xxx')
-    print test.verify()
+
