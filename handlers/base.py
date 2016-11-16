@@ -121,7 +121,10 @@ class SocketHandler(WebSocketHandler):
                 'plugins': name
             }
         })
-        if updateRes.modified_count:
+        # 因为mongodb < 2.6的版本没有modified_count，所以通过 raw_result里 n的值来判断是否更新成功
+        if not updateRes.raw_result.has_key('n'):
+            return False
+        if updateRes.raw_result['n']:
             return True
         else:
             return False
