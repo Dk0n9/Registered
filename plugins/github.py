@@ -5,9 +5,9 @@ from common import base
 
 class Plugin(base.BASE):
 
-    _Name_ = 'github'  # 只能使用字母、数字、英文下划线命名, 字母开头
-    _Title_ = 'GitHub'
-    _Url_ = 'https://github.com/'
+    __name__ = 'github'  # 只能使用字母、数字、英文下划线命名, 字母开头
+    __title__ = 'GitHub'
+    __url__ = 'https://github.com/'
 
     def register(self, target):
         self.information = {
