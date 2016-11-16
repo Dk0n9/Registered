@@ -114,14 +114,14 @@ class SocketHandler(WebSocketHandler):
                 self._updateTarget(target, data.__name__)
 
     def _updateTarget(self, target, name):
-        updateRes = self.db.targets.update({
+        updateRes = self.db.targets.update_one({
             'target': target
         }, {
             '$addToSet': {
                 'plugins': name
             }
         })
-        if updateRes['nModified']:
+        if updateRes.modified_count:
             return True
         else:
             return False

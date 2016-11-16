@@ -55,14 +55,14 @@ class InfoHandler(base.SocketHandler):
             return False
 
     def _removePlugin(self, target, name):
-        updateRes = self.db.targets.update({
+        updateRes = self.db.targets.update_one({
             'target': target
         }, {
             '$pull': {
                 'plugins': name
             }
         })
-        if updateRes['nModified']:
+        if updateRes.modified_count:
             return True
         else:
             return False
