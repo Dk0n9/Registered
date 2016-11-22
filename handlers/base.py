@@ -12,6 +12,7 @@ from tornado.websocket import WebSocketHandler
 import database
 from config import conf
 from common import functions
+from common import exceptions
 
 
 PLUGINS = functions.loadPlugins()
@@ -88,7 +89,6 @@ class SocketHandler(WebSocketHandler):
         while True:
             if not SocketHandler.status:
                 break
-
             try:
                 data = SocketHandler.taskQueue.get(False)
                 data.register(target)
@@ -103,8 +103,8 @@ class SocketHandler(WebSocketHandler):
                 SocketHandler._lock.release()
                 self.write_message('done')
                 break
-            except Exception, e:
-                print e
+            except Exception:
+                exceptions.printException()
                 break
             if result:
                 self.write_message({
