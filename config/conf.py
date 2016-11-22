@@ -27,5 +27,8 @@ DATABASE_DB = 'registered'
 
 # PLUGIN CONFIG #
 THREADS = 5
-TIMEOUT = 5  # (s)
+REQUEST_TIMEOUT = 5  # (s)
+REQUEST_RETRIES = 10
+REQUEST_VERIFY = True
+REQUEST_STREAM = False
 PLUGIN_DIR = os.path.abspath(os.path.dirname(__file__) + '/../plugins/').replace('\\', '/')
