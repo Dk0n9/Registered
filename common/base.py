@@ -7,8 +7,11 @@ import time
 import random
 import string
 
+from config import conf
 from common import analyze
-from common import functions
+
+import requests
+from pyquery import PyQuery
 
 
 class BASE(object):
@@ -19,6 +22,16 @@ class BASE(object):
         'username': {}
     }
     _analyzer = analyze.Analyzer()
+    _Session = requests.Session()
+
+    def __init__(self):
+        # requests初始化配置, 插件可根据需要进行更改
+        self._Session.adapters.DEFAULT_RETRIES = conf.REQUEST_RETRIES
+        self._Session.verify = conf.REQUEST_VERIFY
+        self._Session.stream = conf.REQUEST_STREAM
+
+    def getPyquery(self, content):
+        return PyQuery(content)
 
     def verify(self):
         for key in self.information.keys():
@@ -27,7 +40,7 @@ class BASE(object):
             tempDict = self.information[key]
             tempSafeDict = tempDict.get('safe')
             if tempSafeDict:
-                safeResponse = functions.request(**tempSafeDict)
+                safeResponse = self.request(tempSafeDict['method'], tempSafeDict['url'], tempSafeDict.get('settings'))
                 if not safeResponse:
                     return False
                 tempDict.setdefault('settings', {})
@@ -35,13 +48,31 @@ class BASE(object):
                     tempDict['settings']['headers'] = safeResponse.headers
                 if 'cookies' not in self.information[key]['settings']:
                     tempDict['settings']['cookies'] = safeResponse.cookies
-            response = functions.request(tempDict['method'], tempDict['url'], tempDict['settings'])
-            if not response:
+            response = self.request(tempDict['method'], tempDict['url'], tempDict['settings'])
+            # 修复判断不严导致403状态也会直接返回 False
+            if response is False:
                 return False
             self._analyzer.set(response.content, tempDict['result'])
             result = self._analyzer.get()
             if result:
                 return True
+        return False
+
+    def request(self, method, url, settings=None):
+        # HTTP请求方法, 用Session管理请求，减少连接数提高复用
+        if settings is None:
+            settings = {}
+        if 'timeout' not in settings:
+            settings['timeout'] = conf.REQUEST_TIMEOUT
+        # 超时重试机制
+        for i in range(3):
+            try:
+                response = self._Session.request(method, url, **settings)
+                return response
+            except requests.Timeout:
+                continue
+            except Exception, e:
+                return False
         return False
 
     def getRandomAgent(self):
@@ -79,3 +110,9 @@ class BASE(object):
         if mix:
             randomStr += '1234567890'
         return ''.join(random.sample(randomStr, int(length)))
+
+    def __close(self):
+        self._Session.close()
+
+    def __del__(self):
+        self.__close()
