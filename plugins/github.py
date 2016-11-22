@@ -10,25 +10,26 @@ class Plugin(base.BASE):
     __url__ = 'https://github.com/'
 
     def register(self, target):
+        response = self.request('get', 'https://github.com/')
+        html = self.getPyquery(response.content)
+        token = html('input[name="authenticity_token"]').val()
         self.information = {
             'username': {
-                'url': 'https://github.com/signupCheck/username',
+                'url': 'https://github.com/signup_check/username',
                 'method': 'post',
                 'settings': {
                     'data': {
-                        'value': target
+                        'value': target,
+                        'authenticity_token': token
                     },
                     'headers': {
                         'X_Requested_With': 'XMLHttpRequest',
                     },
-                },
-                'safe': {
-                    'url': 'https://github.com/join?source=login',
-                    'method': 'get'
+                    'cookies': response.cookies
                 },
                 'result': {
-                    'type': 'json',
-                    'value': 'success=1'
+                    'type': 'str',
+                    'value': 'Username is already taken'
                 }
             }
         }
