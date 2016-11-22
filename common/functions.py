@@ -4,8 +4,6 @@ import os
 import imp
 import json
 
-import requests
-
 from config import conf
 
 
@@ -26,19 +24,6 @@ def loadPlugins():
             classObj = getattr(tempObj, 'Plugin')()  # 初始化
             result[classObj.__name__] = classObj
     return result
-
-
-def request(method, url, settings=None):
-    # 超时重试机制
-    for i in range(3):
-        try:
-            response = requests.request(method, url, timeout=conf.TIMEOUT, **settings)
-            return response
-        except requests.Timeout:
-            continue
-        except Exception, e:
-            return False
-    return False
 
 
 def objectToJson(obj):
