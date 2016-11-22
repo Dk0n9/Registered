@@ -1,5 +1,5 @@
 ---
-# Registered V0.2.4
+# Registered V0.2.5
 
 [![Python 2.7](https://img.shields.io/badge/python-2.7-blue.svg)](https://www.python.org/) [![License](https://img.shields.io/badge/license-GPLv3-red.svg)](https://raw.githubusercontent.com/Dk0n9/Registered/master/LICENSE)
 
@@ -8,6 +8,12 @@
 
 ---
 #### 更新日志
+##### version 0.2.5
+* 新添加了一个方便操作html元素的公共方法供插件使用(<b>需要安装pyquery模块, 或在本程序根目录下运行`pip install -r requirements.txt`</b>)
+* 将`common/functions.py`的http请求方法移至基类。使用Session管理http请求, 提高连接复用性, 并且对插件开放
+* 修复一处逻辑判断错误
+* 插件抛异常时会打印出错误信息方便DEBUG
+
 ##### version 0.2.4
 * 修改插件规范以方便编写及简化程序流程
 
@@ -34,7 +40,7 @@
 <pre><code>pip install -r requirements.txt</code></pre>
 安装程序所需的依赖包
 
-在./config/conf.py文件中配置web地址、数据库配置、插件配置后, 运行./start.py文件启动WEB服务。
+在`config/conf.py`文件中配置web地址、数据库配置、插件配置后, 运行./start.py文件启动WEB服务。
 
 ---
 #### 注意事项
@@ -89,6 +95,16 @@ __url__ = 'http://www.xxx.com/'  # 网站地址</code></pre>
         ...  # 如有其他接口可按上面格式继续添加，key名称无要求
     }</code></pre>
 在基类中, 还有一些可供使用的公共方法:
+
+- request
+> HTTP请求方法, 用Session管理请求，减少连接数提高复用<br/>
+> 必输参数: method; http请求使用的方法<br/>
+> 必输参数: url; 请求的url地址<br/>
+> 可选参数: settings; requests参数字典<br/>
+
+- getPyquery
+> 返回解析好内容的pyquery对象, 需要使用者对pyquery有一定了解。(可参考`plugins/github.py`)<br/>
+> 必输参数: content; 网页内容<br/>
 
 - getRandomAgent
 > 随机获取一个User-Agent, 想添加或移除User-Agent可以在基类的代码中修改
