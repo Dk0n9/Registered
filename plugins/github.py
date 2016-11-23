@@ -13,23 +13,46 @@ class Plugin(base.BASE):
         response = self.request('get', 'https://github.com/')
         html = self.getPyquery(response.content)
         token = html('input[name="authenticity_token"]').val()
-        self.information = {
-            'username': {
-                'url': 'https://github.com/signup_check/username',
-                'method': 'post',
-                'settings': {
-                    'data': {
-                        'value': target,
-                        'authenticity_token': token
+        if '@' in target:
+            self.information = {
+                'username': {
+                    'url': 'https://github.com/signup_check/email',
+                    'method': 'post',
+                    'settings': {
+                        'data': {
+                            'value': target,
+                            'authenticity_token': token
+                        },
+                        'headers': {
+                            'X_Requested_With': 'XMLHttpRequest',
+                        },
+                        'cookies': response.cookies
                     },
-                    'headers': {
-                        'X_Requested_With': 'XMLHttpRequest',
-                    },
-                    'cookies': response.cookies
-                },
-                'result': {
-                    'type': 'str',
-                    'value': 'Username is already taken'
+                    'result': {
+                        'type': 'str',
+                        'value': 'Email is invalid or already taken'
+                    }
                 }
             }
-        }
+
+        else:
+            self.information = {
+                'username': {
+                    'url': 'https://github.com/signup_check/username',
+                    'method': 'post',
+                    'settings': {
+                        'data': {
+                            'value': target,
+                            'authenticity_token': token
+                        },
+                        'headers': {
+                            'X_Requested_With': 'XMLHttpRequest',
+                        },
+                        'cookies': response.cookies
+                    },
+                    'result': {
+                        'type': 'str',
+                        'value': 'Username is already taken'
+                    }
+                }
+            }
